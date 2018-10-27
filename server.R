@@ -1,10 +1,12 @@
+## ui.R
+
 library(dplyr)
 library(ggplot2)
 library(shiny)
 library(primefactr)
 
+primeList <- AllPrimesUpTo(10000)
 makeCoordinates <- function(nIter, rotationFraction){
-    primeList <- AllPrimesUpTo(10000)
     df <- data.frame(i = seq(0, nIter-1, 1))
     df <- df %>%
         mutate(angle = rotationFraction * (2*pi) * i,
@@ -16,9 +18,9 @@ makeCoordinates <- function(nIter, rotationFraction){
     return(df)
 }
 
-server <- function(input, output){n
+server <- function(input, output){
     output$scatterPlot <- renderPlot({
-    xydata <- makeCoordinates(300,
+    xydata <- makeCoordinates(1000,
                               input$rotationFraction)
     ggplot(xydata, aes(x = xpos, y = ypos, color=isPrime)) +
         geom_point() +
